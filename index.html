@@ -14,8 +14,12 @@
             ondragover="dragOverHandler(event);"
         >
             <p>Drag one or more SVG files here</p>
+            <button
+                onclick="clearSvgs()"
+            >Clear</button>
         </div>
         <div id="svg_container"></div>
+
     </body>
 </html>
 <script>
@@ -61,17 +65,22 @@
         event.preventDefault();
     };
 
+    const clearSvgs = () => {
+        const div = document.getElementById("svg_container");
+        while(div.firstChild){
+            div.removeChild(div.firstChild);
+        }
+    }
+
 </script>
 <style>
     * {
-        box-sizing: border-box;
-
-    }
-    body {
-        background-color: white;
         color: blue;
         font-family: "SF Mono", arial, sans-serif;
         font-weight: 400;
+    }
+    body {
+        background-color: white;
         margin: 3rem;
     }
     #drop_zone {
@@ -79,7 +88,17 @@
         border-radius: 0.5rem;
         background-color: paleturquoise;
         text-align: center;
-        padding: 1rem;
+        padding: 1.5rem;
+    }
+    button {
+        position: absolute;
+        border: none;
+        outline: none;
+        background-color: transparent;
+        right: 4rem;
+        top: 4rem;
+        text-decoration: underline;
+        cursor: pointer;
     }
     #svg_container {
         display: flex;
