@@ -20,17 +20,17 @@
 </html>
 <script>
 
-    const appendSvgNode = (code) => {
-        const node = document.createElement("svg");
+    const drawSvg = (code) => {
+        const node = document.createElement("div");
         node.innerHTML = code;
         document.getElementById("svg_container").appendChild(node);
     };
 
-    const createSvg = (file) => {
+    const createSvgFromFile = (file) => {
         const fileReader = new FileReader();
         fileReader.readAsText(file);
         fileReader.onload = (event) => {
-            appendSvgNode(event.target.result);
+            drawSvg(event.target.result);
         };
     };
 
@@ -44,14 +44,14 @@
                 if (item.kind === "file") {
                     const file = item.getAsFile();
                     console.log(`file[${i}].name = ${file.name}`);
-                    createSvg(file);
+                    createSvgFromFile(file);
                 }
             });
         } else {
             // Use DataTransfer interface to access the file(s)
             [...event.dataTransfer.files].forEach((file, i) => {
                 console.log(`_ file[${i}].name = ${file.name}`);
-                createSvg(file);
+                createSvgFromFile(file);
             });
         }
     };
