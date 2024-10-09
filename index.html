@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+    <head>     
+        <meta name="author" content="Jyri Konttinen">
+        <meta name="description" content="A simple file drag'n'drop SVG viewer for visual quality check">
+        <meta name="keywords" content="SVG">
+        <title>Simple SVG viewer</title>
+        <link href="https://fonts.cdnfonts.com/css/sf-mono" rel="stylesheet"/>
+    </head>   
+    <body>
+        <div 
+            id="drop_zone" 
+            ondrop="dropHandler(event);"
+            ondragover="dragOverHandler(event);"
+        >
+            <p>Drag one or more SVG files here</p>
+        </div>
+        <div id="svg_container"></div>
+    </body>
+</html>
+<script>
+
+    const appendSvgNode = (code) => {
+        const node = document.createElement("svg");
+        node.innerHTML = code;
+        document.getElementById("svg_container").appendChild(node);
+    };
+
+    const createSvg = (file) => {
+        const fileReader = new FileReader();
+        fileReader.readAsText(file);
+        fileReader.onload = (event) => {
+            appendSvgNode(event.target.result);
+        };
+    };
+
+    const dropHandler = (event) => {
+        // Prevent file from being opened
+        event.preventDefault();
+        if (event.dataTransfer.items) {
+            // Use DataTransferItemList interface to access the file(s)
+            [...event.dataTransfer.items].forEach((item, i) => {
+                // If dropped items aren't files, reject them
+                if (item.kind === "file") {
+                    const file = item.getAsFile();
+                    console.log(`file[${i}].name = ${file.name}`);
+                    createSvg(file);
+                }
+            });
+        } else {
+            // Use DataTransfer interface to access the file(s)
+            [...event.dataTransfer.files].forEach((file, i) => {
+                console.log(`_ file[${i}].name = ${file.name}`);
+                createSvg(file);
+            });
+        }
+    };
+
+    const dragOverHandler = (event) => {
+        // Prevent file from being opened
+        event.preventDefault();
+    };
+
+</script>
+<style>
+    * {
+        box-sizing: border-box;
+
+    }
+    body {
+        background-color: white;
+        color: blue;
+        font-family: "SF Mono", arial, sans-serif;
+        font-weight: 400;
+        margin: 3rem;
+    }
+    #drop_zone {
+        border: 2px solid turquoise;
+        border-radius: 0.5rem;
+        background-color: paleturquoise;
+        text-align: center;
+        padding: 1rem;
+    }
+    #svg_container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding:2rem;
+        gap: 1rem;
+    }
+</style>
