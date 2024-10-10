@@ -23,17 +23,17 @@
 
     const animateDrop = (element) => {
         element.animate(
-            [{ opacity: '0' }, { opacity: '1' }], 
+            [{ opacity: "0" }, { opacity: "1" }], 
             { duration: 1000 }
         )
-    };
+    }
 
     const drawSvg = (code) => {
         const node = document.createElement("div");
         node.innerHTML = code;
         document.getElementById("svg_container").appendChild(node);
         animateDrop(node);
-    };
+    }
 
     const createSvgFromFile = (file) => {
         const fileReader = new FileReader();
@@ -41,7 +41,7 @@
         fileReader.onload = (event) => {
             drawSvg(event.target.result);
         };
-    };
+    }
 
     const dropHandler = (event) => {
         // Prevent file from being opened
@@ -63,16 +63,16 @@
                 createSvgFromFile(file);
             });
         }
-    };
+    }
 
     const dragOverHandler = (event) => {
         // Prevent file from being opened
         event.preventDefault();
-    };
+    }
 
     const clearSvgs = () => {
         const div = document.getElementById("svg_container");
-        while(div.firstChild){
+        while (div.firstChild) {
             div.removeChild(div.firstChild);
         }
     }
