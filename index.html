@@ -19,15 +19,22 @@
             >Clear</button>
         </div>
         <div id="svg_container"></div>
-
     </body>
 </html>
 <script>
+
+    const animateDrop = (element) => {
+        element.animate(
+            [{ opacity: '0' }, { opacity: '1' }], 
+            { duration: 1000 }
+        )
+    };
 
     const drawSvg = (code) => {
         const node = document.createElement("div");
         node.innerHTML = code;
         document.getElementById("svg_container").appendChild(node);
+        animateDrop(node);
     };
 
     const createSvgFromFile = (file) => {
